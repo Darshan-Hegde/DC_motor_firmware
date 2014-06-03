@@ -1,0 +1,127 @@
+Commands for l293d in serial mode:
+Note: the symbol ‘_’ is space. 
+To rotate motor 1 in anti clock wise direction with required speed is:$_motor_1_aclk_pwm_/n
+Here pwm  value lies in between 000 to 255.
+Example:Serial.println(“$ motor 1 aclk 050 /n”);
+This above example will rotate the motor in anti clockwise direction for given pwm value 50. 
+
+To rotate motor 1 in clock wise direction with required speed is:$_motor_1_clck_pwm_/n
+Here pwm  value lies in between 000 to 255.
+Example:Serial.println(“$ motor 1 clck 150 /n”);
+This above example will rotate the motor in clockwise direction for given pwm value 150. 
+
+Similarly for motor 2, replace  ‘1’ by ‘2’ in the above commands
+Example:Serial.println(“$ motor 2 clck 255 /n”);
+This above example will rotate the motor in clockwise direction for given pwm value 255. 
+
+Example:Serial.println(“$ motor 2 aclk 200 /n”);
+This above example will rotate the motor in anti clockwise direction for given pwm value 200. 
+
+To stop the motor 1 the command is: $ stop 1 /n
+Example:Serial.println(“$ stop 1 /n”);
+This command will stop the motor 1.
+
+To stop the motor 2 the command is: $ stop 2 /n
+Example:Serial.println(“$ stop 2 /n”);
+This command will stop the motor 2.
+
+To stop both the motor the command is: $ stop b /n
+Example:Serial.println(“$ stop b /n”);
+This command will stop the motor b.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Commands  for l293d in spi mode:
+It is same as mentioned in serial mode except  commands ends with ‘\n’
+Example:
+
+SPI.begin ();
+ SPI.setClockDivider(SPI_CLOCK_DIV8);
+char c;
+
+ To rotate motor 1 in clock wise direction with required speed is:$_motor_1_clck_pwm_/n
+digitalWrite(SS, LOW);
+ for (const char * p = "$ motor 1 clck 150 \n" ; c = *p; p++)
+ SPI.transfer (c);
+  digitalWrite(SS, HIGH);
+
+To rotate motor 2 in clock wise direction with required speed is:$_motor_2_clck_pwm_/n
+digitalWrite(SS, LOW);
+ for (const char * p = "$ motor 2 clck 150 \n" ; c = *p; p++)
+ SPI.transfer (c);
+  digitalWrite(SS, HIGH);
+
+To stop motor 1:
+$_stop_1_\n
+digitalWrite(SS, LOW);
+ for (const char * p = "$ stop 1 \n" ; c = *p; p++)
+ SPI.transfer (c);
+  digitalWrite(SS, HIGH);
+
+To stop motor 2:
+$_stop_2_\n
+digitalWrite(SS, LOW);
+ for (const char * p = "$ stop 2 \n" ; c = *p; p++)
+ SPI.transfer (c);
+  digitalWrite(SS, HIGH);
+
+To stop both the  motor:
+$_stop_2_\n
+digitalWrite(SS, LOW);
+ for (const char * p = "$ stop b \n" ; c = *p; p++)
+ SPI.transfer (c);
+  digitalWrite(SS, HIGH);
+
+
+
+
+
+
+
+
+
+commands for l293d in i2c mode:
+follow the same command as in serial mode
+
+example: $_motor_1_aclk_100_/n_
+
+Wire.begin(); // join i2c bus (address optional for master)
+  
+  Wire.beginTransmission(4); // device 4 is our l293d
+  Wire.write("$ motor 1 aclk 100 /n ");        
+  Wire.endTransmission();    // stop transmitting
+  delay(3000); //3 seconds of delay
+
+this above instruction will rotate the motor 1 in anti clock wise direction with pwm of 100.
+
+for rotating the motor 1 cclk direction with max pwm of 255
+
+Wire.beginTransmission(4); // device 4 is our l293d
+  Wire.write("$ motor 1 cclk 100 /n ");        
+  Wire.endTransmission();    // stop transmitting
+  delay(3000); //3 seconds of delay
+
+for stoping the motor from rotating:
+
+Wire.beginTransmission(4); // device 4 is our l293d
+  Wire.write("$ stop 1 /n ");        
+  Wire.endTransmission();    // stop transmitting
+  delay(3000); //3 seconds of delay
+
+
+
+
+
+
